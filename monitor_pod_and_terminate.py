@@ -13,7 +13,7 @@ runpod.api_key = RUNPOD_API_KEY
 runpod_id = os.getenv("RUNPOD_POD_ID")
 print(f"Runpod ID: {runpod_id}")
 
-COMFYUI_OUTPUT_FOLDER = '/app/ComfyUI'
+COMFYUI_OUTPUT_FOLDER = '/app/ComfyUI/output/'
 FRAMEPACK_OUTPUT_FOLDER = '/app/FramePack_outputs/'
 
 
