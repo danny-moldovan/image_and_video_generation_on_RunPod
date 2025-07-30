@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-export PATH="$PATH:/workspace/ollama/bin"
-export OLLAMA_MODELS="/workspace/models"
-export PYTHONPATH="/workspace/python_libraries"
-chmod +x /workspace/ollama/bin/ollama
 export OLLAMA_API_BASE="http://localhost:11434"
 export OLLAMA_HOST=0.0.0.0
+export OLLAMA_MODELS=".ollama/models"
 
 # Check if ollama is already running
 if ! curl -s http://localhost:11434/ > /dev/null 2>&1; then
