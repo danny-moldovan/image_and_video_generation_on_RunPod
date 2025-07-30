@@ -82,7 +82,7 @@ else:
 
 stream = AsyncStream()
 
-outputs_folder = '/root/FramePack_outputs/'
+outputs_folder = '/app/FramePack_outputs/'
 os.makedirs(outputs_folder, exist_ok=True)
 
 
