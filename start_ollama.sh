@@ -18,7 +18,7 @@ if ! curl -s http://localhost:11434/ > /dev/null 2>&1; then
     echo "Ollama is ready!"
 
     # Run curl in the background
-    curl http://localhost:11434/api/generate -d '{"model": "huihui_ai/qwen3-abliterated:latest", "prompt": "Hello"}' &
+    ollama pull huihui_ai/qwen3-abliterated:latest && curl http://localhost:11434/api/generate -d '{"model": "huihui_ai/qwen3-abliterated:latest", "prompt": "Hello"}' &
 else
     echo "Ollama is already running."
 fi
