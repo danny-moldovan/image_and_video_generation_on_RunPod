@@ -17,7 +17,7 @@ COMFYUI_OUTPUT_FOLDER = '/workspace/ComfyUI_outputs/'
 FRAMEPACK_OUTPUT_FOLDER = '/workspace/FramePack_outputs/'
 
 
-async def _poll_app_utilisation_and_terminate_idle_pod(poll_interval: int = 30, max_idle_time: int = 900):
+async def _poll_app_utilisation_and_terminate_idle_pod(poll_interval: int = 30, max_idle_time: int = 3600):
     """Poll app utilization and terminate idle pod if no requests for specified time"""
     idle_start_time = None
     
