@@ -13,8 +13,8 @@ runpod.api_key = RUNPOD_API_KEY
 runpod_id = os.getenv("RUNPOD_POD_ID")
 print(f"Runpod ID: {runpod_id}")
 
-COMFYUI_OUTPUT_FOLDER = '/root/ComfyUI/output/'
-FRAMEPACK_OUTPUT_FOLDER = '/root/FramePack_outputs/'
+COMFYUI_OUTPUT_FOLDER = '/workspace/ComfyUI_outputs/'
+FRAMEPACK_OUTPUT_FOLDER = '/workspace/FramePack_outputs/'
 
 
 async def _poll_app_utilisation_and_terminate_idle_pod(poll_interval: int = 30, max_idle_time: int = 900):
