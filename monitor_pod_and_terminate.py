@@ -5,6 +5,8 @@ import asyncio
 import os
 from dotenv import load_dotenv
 import glob
+import random
+import shutil
 
 load_dotenv('/root/env')
 RUNPOD_API_KEY = os.environ.get('RUNPOD_API_KEY')
@@ -13,6 +15,7 @@ runpod.api_key = RUNPOD_API_KEY
 runpod_id = os.getenv("RUNPOD_POD_ID")
 print(f"Runpod ID: {runpod_id}")
 
+COMFYUI_OUTPUT_FOLDER_ORIGINAL = '/root/ComfyUI/output'
 COMFYUI_OUTPUT_FOLDER = '/workspace/ComfyUI_outputs/'
 FRAMEPACK_OUTPUT_FOLDER = '/workspace/FramePack_outputs/'
 
@@ -28,14 +31,36 @@ async def _poll_app_utilisation_and_terminate_idle_pod(poll_interval: int = 30, 
         current_time = datetime.now()
         recent_requests = False
         
-        # Check COMFYUI_OUTPUT_FOLDER
-        if os.path.exists(COMFYUI_OUTPUT_FOLDER):
-            for file_path in glob.glob(os.path.join(COMFYUI_OUTPUT_FOLDER, "**"), recursive=True):
+        # Check COMFYUI_OUTPUT_FOLDER_ORIGINAL
+        if os.path.exists(COMFYUI_OUTPUT_FOLDER_ORIGINAL):
+            for file_path in glob.glob(os.path.join(COMFYUI_OUTPUT_FOLDER_ORIGINAL, "**"), recursive=True):
                 if os.path.isfile(file_path):
                     file_time = datetime.fromtimestamp(os.path.getmtime(file_path))
                     if (current_time - file_time).total_seconds() <= poll_interval:
                         recent_requests = True
-                        break
+                        
+                        # Move recently created files from COMFYUI_OUTPUT_FOLDER_ORIGINAL to COMFYUI_OUTPUT_FOLDER
+                        try:
+                            # Ensure destination folder exists
+                            os.makedirs(COMFYUI_OUTPUT_FOLDER, exist_ok=True)
+                            
+                            # Get the filename and create destination path
+                            filename = os.path.basename(file_path)
+                            name, ext = os.path.splitext(filename)
+                            destination_path = os.path.join(COMFYUI_OUTPUT_FOLDER, filename)
+                            
+                            # If file already exists, add random number before extension
+                            while os.path.exists(destination_path):
+                                random_suffix = random.randint(1000, 9999)
+                                new_filename = f"{name}_{random_suffix}{ext}"
+                                destination_path = os.path.join(COMFYUI_OUTPUT_FOLDER, new_filename)
+                            
+                            # Move the file
+                            shutil.move(file_path, destination_path)
+                            print(f"Moved file: {filename} -> {os.path.basename(destination_path)}")
+                        except Exception as e:
+                            print(f"Error moving file {file_path}: {e}")
+        
         
         # Check FRAMEPACK_OUTPUT_FOLDER if no recent files found in ComfyUI folder
         if not recent_requests and os.path.exists(FRAMEPACK_OUTPUT_FOLDER):

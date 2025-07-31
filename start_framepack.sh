@@ -8,6 +8,6 @@ cp /workspace/ae.safetensors ComfyUI/models/vae/
 cp /workspace/pulsar-male-gay-nsfw-base-model-flux-990314.safetensors ComfyUI/models/checkpoints/
 
 mkdir -p FramePack/hf_download
-cp /workspace/FramePack/hf_download FramePack/hf_download
+cp -r /workspace/FramePack/hf_download FramePack/hf_download
 
 python -m uvicorn FramePack_serving.app:app --host 0.0.0.0 --port 8000
