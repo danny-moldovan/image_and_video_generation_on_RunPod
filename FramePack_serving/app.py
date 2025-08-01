@@ -14,18 +14,19 @@ import re
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../FramePack')))
 
-from FramePack import demo_gradio
-
 app = FastAPI()
 
-# Configure CORS
+# Configure CORS - must be added before other middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allows all origins
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
+    allow_credentials=False,  # Changed to False since allow_origins=["*"] doesn't work with credentials=True
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Explicitly list methods
     allow_headers=["*"],  # Allows all headers
+    expose_headers=["*"],  # Expose all headers
 )
+
+from FramePack import demo_gradio
 
 @app.get("/")
 def root():
@@ -34,6 +35,11 @@ def root():
 
 @app.get("/health")
 def health():
+    return {"message": "OK"}
+
+@app.options("/{full_path:path}")
+async def options_handler(full_path: str):
+    """Handle OPTIONS requests for CORS preflight"""
     return {"message": "OK"}
 
     
