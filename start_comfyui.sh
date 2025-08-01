@@ -14,5 +14,8 @@ ln -s /workspace/t5xxl_fp16.safetensors ComfyUI/models/text_encoders/t5/t5xxl_fp
 ln -s /workspace/ae.safetensors ComfyUI/models/vae/ae.safetensors
 ln -s /workspace/pulsar-male-gay-nsfw-base-model-flux-990314.safetensors ComfyUI/models/checkpoints/pulsar-male-gay-nsfw-base-model-flux-990314.safetensors
 
+python -m pip install -r ComfyUI/requirements.txt
+python -m pip install -r ComfyUI/custom_nodes/comfyui-manager/requirements.txt
+
 cd ComfyUI
-python main.py --preview-method auto -- listen
+python main.py --preview-method auto --listen
